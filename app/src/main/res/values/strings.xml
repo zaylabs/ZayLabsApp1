@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">ZayLabsApp1</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="register">Register</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="language">Language</string>
+    <string name="zaylabs">Zay Labs</string>
+    <string name="back">Back</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="cnic">CNIC</string>
+    <string name="driving_license">Driving License</string>
+    <string name="vahicletype1">Suzuki</string>
+    <string name="vahicletype2">Riksha</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="loading">Loading..</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+</resources>

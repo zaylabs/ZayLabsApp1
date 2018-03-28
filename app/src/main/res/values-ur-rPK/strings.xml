@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"ز لیبزایپ 1 "</string>
+    <string name="prompt_email">ای میل</string>
+    <string name="prompt_password">پاس ورڈ</string>
+    <string name="action_sign_in">لاگ ان</string>
+    <string name="action_sign_in_short">لاگ ان</string>
+    <string name="error_invalid_email">یہ ای میل غلط ہے</string>
+    <string name="error_invalid_password">پاس ورڈ کا سائز بہت چھوٹا ہے</string>
+    <string name="error_incorrect_password">پاس ورڈ غلط ہے</string>
+    <string name="error_field_required">" یہ فیلڈ  بھرنا لازمی ہے"</string>
+    <string name="permission_rationale">آپ کے رابطے کی کتاب تک رسائی کی اجازت کی ضرورت ہے</string>
+    <string name="register">رجسٹر</string>
+    <string name="forget_password">پاس ورڈ دوبارہ حاصل کریں</string>
+    <string name="language">زبان</string>
+    <string name="zaylabs">ز لیبز</string>
+    <string name="back">پیچھے</string>
+    <string name="phone">فون</string>
+    <string name="cnic">شناختی کارڈ</string>
+    <string name="driving_license">ڈرائیونگ لائسنس</string>
+    <string name="vahicletype1">سوزوکی</string>
+    <string name="vahicletype2">رکشا</string>
+    <string name="registration_number">نمبر پلیٹ</string>
+    <string name="verify_email">ی میل کی توثیق کریں</string>
+    <string name="loading">لوڈنگ</string>
+    <string name="name">نام</string>
+</resources>
