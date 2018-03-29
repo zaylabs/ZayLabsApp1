@@ -13,8 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Multiple File Upload"
+        android:text="@string/uploaddocuments"
         android:textColor="#000000"
         android:textSize="20sp" />
 
@@ -32,22 +31,29 @@
         app:srcCompat="@mipmap/upload_btn"
         android:onClick="upload"
         />
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/select_btn"
+    android:layout_centerHorizontal="true"
+    android:id="@+id/recyclerscroll"
+    >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/upload_list"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_below="@+id/select_btn"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp">
     </android.support.v7.widget.RecyclerView>
+</ScrollView>
+
 
     <Button
         android:id="@+id/verify_email"
         android:text="@string/verify_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/upload_list"
+        android:layout_below="@+id/recyclerscroll"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

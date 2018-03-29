@@ -112,17 +112,17 @@ public class LoginActivity extends BaseActivity  {
         super.onStart();
 
         // Check auth on Activity start
-        if (mAuth.getCurrentUser() != null){
-            if (!(mAuth.getCurrentUser().isEmailVerified())){
+        if (mAuth.getCurrentUser() != null) {
+            if (mAuth.getCurrentUser().isEmailVerified()) {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+                } else {
                 startActivity(new Intent(LoginActivity.this, RegistrationDocuments.class));
                 finish();
-            }
-        else {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+            };
         }
         }
-    }
+
 
     public void signIn(View view) {
         Log.d(TAG, "signIn");
@@ -142,12 +142,13 @@ public class LoginActivity extends BaseActivity  {
                         hideProgressDialog();
 
                         if (task.isSuccessful()) {
-                            if (!(mAuth.getCurrentUser().isEmailVerified())){
-                                Toast.makeText(LoginActivity.this, "Kindly verify your email",
-                                        Toast.LENGTH_SHORT).show();
+                            if (mAuth.getCurrentUser().isEmailVerified()){
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
                             }
                             else {
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                                startActivity(new Intent(LoginActivity.this, RegistrationDocuments.class));
                                 finish();
                             }
 

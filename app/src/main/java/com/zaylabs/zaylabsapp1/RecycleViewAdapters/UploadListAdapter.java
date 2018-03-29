@@ -77,6 +77,7 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
             fileDoneView = (ImageView) mView.findViewById(R.id.upload_loading);
 
 
+
         }
 
     }

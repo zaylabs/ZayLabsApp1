@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,9 +40,10 @@ public class RegistrationDocuments extends BaseActivity {
     private Button mVerifyEmail;
     private List<String> fileNameList;
     private List<String> fileDoneList;
-
+    private String getUserID;
+    private View view;
     private UploadListAdapter uploadListAdapter;
-
+    private TextView mfileUri;
     private StorageReference mStorage;
 
     @Override
@@ -50,9 +52,11 @@ public class RegistrationDocuments extends BaseActivity {
         setContentView(R.layout.activity_registration_documents);
 
         mVerifyEmail = (Button)findViewById(R.id.verify_email);
+        mfileUri=(TextView) findViewById(R.id.display_pic_uri);
 
         mAuth = FirebaseAuth.getInstance();
-        mStorage = FirebaseStorage.getInstance().getReference();
+        userID = mAuth.getCurrentUser().getUid();
+        mStorage = FirebaseStorage.getInstance().getReference().child(userID);
 
         mSelectBtn = (ImageButton) findViewById(R.id.select_btn);
         mUploadList = (RecyclerView) findViewById(R.id.upload_list);
@@ -79,7 +83,7 @@ public class RegistrationDocuments extends BaseActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setAction(Intent.ACTION_PICK);
         startActivityForResult(Intent.createChooser(intent,"Select Picture"), RESULT_LOAD_IMAGE);
 
 
@@ -163,7 +167,7 @@ public class RegistrationDocuments extends BaseActivity {
 
 
 
-    private void sendEmailVerification(View view) {
+    public void sendEmailVerification(View view) {
         // Disable button
         // findViewById(R.id.verify_email_button).setEnabled(false);
 
@@ -182,6 +186,9 @@ public class RegistrationDocuments extends BaseActivity {
                             Toast.makeText(RegistrationDocuments.this,
                                     "Verification email sent to " + user.getEmail(),
                                     Toast.LENGTH_SHORT).show();
+                                    mAuth.signOut();
+                                    startActivity(new Intent(RegistrationDocuments.this, LoginActivity.class));
+                                    finish();
                         } else {
                             Log.e(TAG, "sendEmailVerification", task.getException());
                             Toast.makeText(RegistrationDocuments.this,
@@ -194,22 +201,18 @@ public class RegistrationDocuments extends BaseActivity {
         // [END send_email_verification]
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Check auth on Activity start
-        if (mAuth.getCurrentUser() != null){
-            if (!(mAuth.getCurrentUser().isEmailVerified())){
-                startActivity(new Intent(RegistrationDocuments.this, LoginActivity.class));
-                finish();
-            }
-            else {
-                startActivity(new Intent(RegistrationDocuments.this, MainActivity.class));
-                finish();
-            }
-        }
+    public void backToLogin(View view) {
+        Intent intent = new Intent(RegistrationDocuments.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        mAuth.signOut();
+        backToLogin(view);
+    }
 }
+
+
+

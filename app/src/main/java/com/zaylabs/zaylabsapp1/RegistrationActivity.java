@@ -82,25 +82,10 @@ public class RegistrationActivity extends BaseActivity {
         mRegister = (Button)findViewById(R.id.register_button);
         mPassword = (EditText)findViewById(R.id.password);
         mEmail=(AutoCompleteTextView)findViewById(R.id.email);
-
-
+        mCnic=(EditText)findViewById(R.id.et_cnic);
+        mRegNo=(EditText)findViewById(R.id.et_reg_no);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Check auth on Activity start
-        if (mAuth.getCurrentUser() != null){
-            if (!(mAuth.getCurrentUser().isEmailVerified())){
-                Toast.makeText(RegistrationActivity.this, "Kindly verify your email", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
-                finish();
-            }
-        }
-    }
 
     public void signUp(View view) {
         Log.d(TAG, "signUp");
@@ -122,7 +107,7 @@ public class RegistrationActivity extends BaseActivity {
                             onAuthSuccess(task.getResult().getUser());
                         } else {
                             Toast.makeText(RegistrationActivity.this, "Sign Up Failed",
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -134,10 +119,7 @@ public class RegistrationActivity extends BaseActivity {
         //setphonenumber
         saveMap();
         // Go to MainActivity
-
-
-        startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
-        finish();
+        backToLogin(view);
     }
 
 
@@ -149,7 +131,6 @@ public class RegistrationActivity extends BaseActivity {
         } else {
             mEmail.setError(null);
         }
-
         if (TextUtils.isEmpty(mPassword.getText().toString())) {
             mPassword.setError("Required");
             result = false;
@@ -162,7 +143,6 @@ public class RegistrationActivity extends BaseActivity {
         } else {
             mName.setError(null);
         }
-
         if (TextUtils.isEmpty(mPhone.getText().toString())) {
             mPhone.setError("Required");
             result = false;
@@ -181,8 +161,6 @@ public class RegistrationActivity extends BaseActivity {
         } else {
             mRegNo.setError(null);
         }
-
-
         return result;
     }
 
@@ -214,7 +192,7 @@ public class RegistrationActivity extends BaseActivity {
         final String phone = mPhone.getText().toString();
         final String name = mName.getText().toString();
         final String vt = mVT;
-        final String cnic=mCnic.getText().toString();
+        final String cnic = mCnic.getText().toString();
         final String reg_number=mRegNo.getText().toString();
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("  dd / MM / yyyy ");
@@ -224,6 +202,9 @@ public class RegistrationActivity extends BaseActivity {
 
         db.collection("drivers").document(userID).set(profile);
 
+        Map<String, Object> vahicletype = new HashMap<>();
+        vahicletype.put("vt",vt);
+        db.collection("vt").document(userID).set(vahicletype);
     }
 
 

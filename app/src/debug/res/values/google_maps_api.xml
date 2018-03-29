@@ -1,0 +1,24 @@
+<resources>
+    <!--
+
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=E3:20:80:47:59:31:01:31:76:76:30:86:5E:9C:08:FA:55:8F:3F:05%3Bcom.zaylabs.zaylabsapp1.StubMapsClass
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    E3:20:80:47:59:31:01:31:76:76:30:86:5E:9C:08:FA:55:8F:3F:05
+
+    SHA-1 certificate fingerprint:
+    E3:20:80:47:59:31:01:31:76:76:30:86:5E:9C:08:FA:55:8F:3F:05
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyACS8IDuDkTDaHibcx445RhEFPYsm4dStE</string>
+</resources>
