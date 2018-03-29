@@ -27,8 +27,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.zaylabs.zaylabsapp1.DTO.driverProfile;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class RegistrationActivity extends BaseActivity {
@@ -51,7 +57,8 @@ public class RegistrationActivity extends BaseActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference mDBRef;
     private String userID;
-
+    private EditText mCnic;
+    private EditText mRegNo;
     private FirebaseFirestore db;
 
     @Override
@@ -60,7 +67,7 @@ public class RegistrationActivity extends BaseActivity {
         setContentView(R.layout.activity_registration);
 
         mAuth = FirebaseAuth.getInstance();
-        //userID = mAuth.getCurrentUser().getUid();
+
         mDatabase= FirebaseDatabase.getInstance().getReference();
         //mDBRef = mDatabase.child("driver").child(userID);
         db = FirebaseFirestore.getInstance();
@@ -127,42 +134,12 @@ public class RegistrationActivity extends BaseActivity {
         //setphonenumber
         saveMap();
         // Go to MainActivity
-        sendEmailVerification();
+
 
         startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
         finish();
     }
 
-    private void sendEmailVerification() {
-        // Disable button
-       // findViewById(R.id.verify_email_button).setEnabled(false);
-
-        // Send verification email
-        // [START send_email_verification]
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // [START_EXCLUDE]
-                        // Re-enable button
-         //               findViewById(R.id.verify_email_button).setEnabled(true);
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegistrationActivity.this,
-                                    "Verification email sent to " + user.getEmail(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.e(TAG, "sendEmailVerification", task.getException());
-                            Toast.makeText(RegistrationActivity.this,
-                                    "Failed to send verification email.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        // [END_EXCLUDE]
-                    }
-                });
-        // [END send_email_verification]
-    }
 
     private boolean validateSignUpForm() {
         boolean result = true;
@@ -191,6 +168,18 @@ public class RegistrationActivity extends BaseActivity {
             result = false;
         } else {
             mPhone.setError(null);
+        }
+        if (TextUtils.isEmpty(mCnic.getText().toString())) {
+            mCnic.setError("Required");
+            result = false;
+        } else {
+            mCnic.setError(null);
+        }
+        if (TextUtils.isEmpty(mRegNo.getText().toString())) {
+            mRegNo.setError("Required");
+            result = false;
+        } else {
+            mRegNo.setError(null);
         }
 
 
@@ -221,34 +210,20 @@ public class RegistrationActivity extends BaseActivity {
         mVTInt = mRadioGroup.getCheckedRadioButtonId();
         mVTRadio = findViewById(mVTInt);
         mVT = mVTRadio.getText().toString();
-
-
-        Map<String, Object> userUpdates = new HashMap<>();
-        final String name = mName.getText().toString();
-        userUpdates.put("name", name);
-        final String email = mAuth.getCurrentUser().getEmail();
-        userUpdates.put("email", email);
+        userID = mAuth.getCurrentUser().getUid();
         final String phone = mPhone.getText().toString();
-        userUpdates.put("phone", phone);
-        final String VT = mVT;
-        userUpdates.put("vt", VT);
+        final String name = mName.getText().toString();
+        final String vt = mVT;
+        final String cnic=mCnic.getText().toString();
+        final String reg_number=mRegNo.getText().toString();
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("  dd / MM / yyyy ");
+        String currentDate = mdformat.format(calendar.getTime());
 
-        db.collection("drivers")
-                .add(userUpdates)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+        driverProfile profile = new driverProfile(name, phone,cnic,reg_number, vt, currentDate);
 
-        //mDBRef.updateChildren(userUpdates);
+        db.collection("drivers").document(userID).set(profile);
+
     }
 
 

@@ -12,16 +12,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.zaylabs.zaylabsapp1.RegistrationActivity">
 
-
-    <ImageView
-        android:id="@+id/img_Logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/zaylabs"
-        app:srcCompat="@drawable/logo12" />
-
-    <!-- Registration progress -->
+   <!-- Registration progress -->
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -99,6 +90,35 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/phone"
                     android:inputType="phone"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_cnic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/cnic"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_reg_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/registration_number"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true" />
 

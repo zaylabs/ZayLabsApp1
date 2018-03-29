@@ -114,8 +114,9 @@ public class LoginActivity extends BaseActivity  {
         // Check auth on Activity start
         if (mAuth.getCurrentUser() != null){
             if (!(mAuth.getCurrentUser().isEmailVerified())){
-            Toast.makeText(LoginActivity.this, "Kindly verify your email", Toast.LENGTH_SHORT).show();
-        }
+                startActivity(new Intent(LoginActivity.this, RegistrationDocuments.class));
+                finish();
+            }
         else {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
