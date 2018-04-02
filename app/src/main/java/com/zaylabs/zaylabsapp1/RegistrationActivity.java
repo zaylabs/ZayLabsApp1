@@ -197,8 +197,9 @@ public class RegistrationActivity extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("  dd / MM / yyyy ");
         String currentDate = mdformat.format(calendar.getTime());
+        String displaypic="";
 
-        driverProfile profile = new driverProfile(name, phone,cnic,reg_number, vt, currentDate);
+        driverProfile profile = new driverProfile(name, phone,cnic,reg_number, vt, currentDate,displaypic);
 
         db.collection("drivers").document(userID).set(profile);
 
