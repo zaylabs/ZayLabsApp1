@@ -8,12 +8,64 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:435716523665:android:9b33e8be6ee85997",
+        "android_client_info": {
+          "package_name": "com.zaylabs.truckitzaylabsv1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435716523665-fcooq9fu4s0atntfvdtkqktd4mhtv803.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zaylabs.truckitzaylabsv1",
+            "certificate_hash": "09291f2490b9b3e99f1030b677e49ac97c2dadaf"
+          }
+        },
+        {
+          "client_id": "435716523665-51rmfrk6mi4lu39nkie0pfg3v6ppjqig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY0ZjyIWWTXMuPMia8kCr1sh0I57VRQBg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435716523665-51rmfrk6mi4lu39nkie0pfg3v6ppjqig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:435716523665:android:57248982d4c8b556",
         "android_client_info": {
           "package_name": "com.zaylabs.zaylabsapp1"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "435716523665-bgt7mhmkmhdtm2khcmsgsmlejal77tt7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zaylabs.zaylabsapp1",
+            "certificate_hash": "09291f2490b9b3e99f1030b677e49ac97c2dadaf"
+          }
+        },
         {
           "client_id": "435716523665-hbvau5pu60poido9nk5gi49c1m19j36t.apps.googleusercontent.com",
           "client_type": 1,
