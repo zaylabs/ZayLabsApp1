@@ -46,6 +46,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -84,7 +85,7 @@ public class LoginActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         loadLocale();
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(getResources().getString(R.string.app_name));
+        Objects.requireNonNull(actionBar).setTitle(getResources().getString(R.string.app_name));
 
         setContentView(R.layout.activity_login);
 

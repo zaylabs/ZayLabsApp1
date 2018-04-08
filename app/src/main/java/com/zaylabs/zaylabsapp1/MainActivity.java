@@ -630,7 +630,7 @@ public class MainActivity extends BaseActivity
             mAuth.signOut();
         } else if (id == R.id.get_help) {
             FragmentTransaction ft= getFragmentManager().beginTransaction();
-            ft.replace(R.id.cm, new com.zaylabs.zaylabsapp1.fragment.JobListFragment());
+            ft.replace(R.id.cm, new com.zaylabs.zaylabsapp1.fragment.HistoryFragment());
             ft.commit();
 
         }

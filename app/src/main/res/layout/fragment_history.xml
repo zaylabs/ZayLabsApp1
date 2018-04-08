@@ -4,12 +4,17 @@
     android:layout_height="match_parent"
     tools:context="com.zaylabs.zaylabsapp1.fragment.HistoryFragment">
 
-   <ListView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:id="@+id/mListView"
-       >
+  <ListView
+      android:id="@+id/mListView"
+      android:layout_width="wrap_content"
+      android:layout_height="416dp">
 
-   </ListView>
+  </ListView>
+
+  <Button
+      android:id="@+id/refresh"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+       />
 
 </FrameLayout>
