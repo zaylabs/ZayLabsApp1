@@ -72,6 +72,7 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+import com.zaylabs.zaylabsapp1.DTO.driverAvailable;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -370,10 +371,13 @@ public class MainActivity extends BaseActivity
 
         if (mVahicleType.equals("Suzuki") ) {
 
-            Map<String, Object> driverVT1Available = new HashMap<>();
             GeoPoint driverlocation = new GeoPoint(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-            driverVT1Available.put("DriverLocation", driverlocation);
-            db.collection("suzukidriveravailable").document(userID).set(driverVT1Available);
+            driverAvailable sdriveravailable = new driverAvailable(driverlocation);
+
+            /*  Map<String, Object> driverVT1Available = new HashMap<>();
+
+            driverVT1Available.put("DriverLocation", driverlocation);*/
+            db.collection("suzukidriveravailable").document(userID).set(sdriveravailable);
 
 
 
@@ -401,10 +405,13 @@ public class MainActivity extends BaseActivity
 */
         } else if (mVahicleType.equals("Riksha")){
 
-            Map<String, Object> driverVT1Available = new HashMap<>();
             GeoPoint driverlocation = new GeoPoint(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-            driverVT1Available.put("DriverLocation", driverlocation);
-            db.collection("rikshadriveravailable").document(userID).set(driverVT1Available);
+            driverAvailable rdriveravailable = new driverAvailable(driverlocation);
+
+            /*Map<String, Object> driverVT1Available = new HashMap<>();
+            GeoPoint driverlocation = new GeoPoint(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+            driverVT1Available.put("DriverLocation", driverlocation);*/
+            db.collection("rikshadriveravailable").document(userID).set(rdriveravailable);
 
             /*geoFireVT2.setLocation(userID, new GeoLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), new GeoFire.CompletionListener() {
                 @Override
