@@ -4,7 +4,7 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.util.Date;
 
-public class customerRequest {
+public class customerRequest extends Userid{
 
     private String name;
     private GeoPoint pickup;
@@ -25,6 +25,7 @@ public class customerRequest {
     }
 
     public String getName() {
+
         return name;
     }
 

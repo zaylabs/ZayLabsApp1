@@ -60,7 +60,7 @@ public class HistoryFragment extends Fragment {
         firestoreDB = FirebaseFirestore.getInstance();
 
         cRequests = new ArrayList<>();
-        usersListAdapter = new UsersListAdapter(cRequests);
+        usersListAdapter = new UsersListAdapter(getActivity(),cRequests);
         mListview = (RecyclerView)view.findViewById(R.id.mListView);
         mListview.setHasFixedSize(true);
         mListview.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -75,8 +75,9 @@ public class HistoryFragment extends Fragment {
                 for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
                     if (doc.getType() == DocumentChange.Type.ADDED){
+                        String user_id = doc.getDocument().getId();
+                        customerRequest request = doc.getDocument().toObject(customerRequest.class).withID(user_id);
 
-                        customerRequest request = doc.getDocument().toObject(customerRequest.class);
                         cRequests.add(request);
                         usersListAdapter.notifyDataSetChanged();
 
