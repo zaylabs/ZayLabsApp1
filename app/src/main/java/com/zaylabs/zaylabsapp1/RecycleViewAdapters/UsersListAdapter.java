@@ -2,6 +2,7 @@ package com.zaylabs.zaylabsapp1.RecycleViewAdapters;
 
 import android.content.Context;
 import android.location.Address;
+import com.mapbox.geocoder.android.AndroidGeocoder;
 import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.zaylabs.zaylabsapp1.DTO.customerRequest;
 import com.zaylabs.zaylabsapp1.DTO.driverAvailable;
 import com.zaylabs.zaylabsapp1.MainActivity;
 import com.zaylabs.zaylabsapp1.R;
+import com.zaylabs.zaylabsapp1.api.Constants;
 
 import java.io.IOException;
 import java.util.List;
@@ -57,70 +59,19 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.View
 
         float distance = loc1.distanceTo(loc2)/1000;
         holder.mName.setText(cRequests.get(position).getName());
-
-
-        List<Address> addresses = null;
-        String currentAddress = "";
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-        try {
-            addresses = geocoder.getFromLocation(
-                    mPick.getLatitude(),
-                    mPick.getLongitude(),
-                    // In this sample, get just a single address.
-                    1);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (addresses != null && addresses.size() > 0) {
-            Address address = addresses.get(0);
-            int max = address.getMaxAddressLineIndex();
-            if (max != -1) {
-                for (int i = 0; i < max; i++)
-
-                    currentAddress += address.getAddressLine(i) + " ";
-                holder.mPickup.setText(currentAddress);
-            }
-            else
-                holder.mPickup.setText(cRequests.get(position).getPickup().toString());;
-        }
-
-
-        GeoPoint mDrops = cRequests.get(position).getDrop();
-        List<Address> daddresses = null;
-        String DropAddress = "";
-        Geocoder dropgeocoder = new Geocoder(context, Locale.getDefault());
-        try {
-            daddresses = dropgeocoder.getFromLocation(
-                    mDrops.getLatitude(),
-                    mDrops.getLongitude(),
-                    // In this sample, get just a single address.
-                    1);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (daddresses != null && daddresses.size() > 0) {
-            Address dropaddress = daddresses.get(0);
-            int max = dropaddress.getMaxAddressLineIndex();
-            if (max != -1) {
-                for (int i = 0; i < max; i++)
-
-                    DropAddress += dropaddress.getAddressLine(i) + " ";
-                holder.mDrop.setText(DropAddress);
-            }
-            else
-                holder.mDrop.setText(cRequests.get(position).getDrop().toString());;
-        }
+        holder.mPickup.setText(cRequests.get(position).getPickupaddress());
+        holder.mDrop.setText(cRequests.get(position).getDropaddress());
         holder.mPhone.setText(cRequests.get(position).getPhone());
+        holder.mRideDistance.setText(cRequests.get(position).getRidedistance());
+        holder.mDiscription.setText(cRequests.get(position).getDescription());
+        holder.mBoxes.setText(cRequests.get(position).getBoxes());
+        holder.mWeight.setText(cRequests.get(position).getWeight());
 
 
         final String user_id = cRequests.get(position).userId;
         holder.mDistance.setText(String.valueOf(distance)+"KM");
+
+
         holder.mSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +106,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
-        public TextView mName,mPickup,mDrop,mPhone, mDistance;
+        public TextView mName,mPickup,mDrop,mPhone, mDistance, mDiscription, mBoxes, mRideDistance,mWeight;
         public Button mAccept, mSkip;
 
         public ViewHolder(View itemView) {
@@ -168,7 +119,10 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.View
             mAccept=(Button)mView.findViewById(R.id.accept);
             mSkip=(Button)mView.findViewById(R.id.skip);
             mDistance=(TextView)mView.findViewById(R.id.distance);
-
+            mRideDistance=(TextView)mView.findViewById(R.id.ride_distance);
+            mDiscription=(TextView)mView.findViewById(R.id.description);
+            mBoxes=(TextView)mView.findViewById(R.id.Boxes);
+            mWeight=(TextView)mView.findViewById(R.id.weight);
 
         }
     }

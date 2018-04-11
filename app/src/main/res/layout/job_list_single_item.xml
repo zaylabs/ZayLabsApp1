@@ -52,12 +52,40 @@
             android:text="Distance"
             android:layout_below="@id/phone"
             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/description"
+            android:text="Description"
+            android:layout_below="@id/distance"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Boxes"
+            android:text="Boxes"
+            android:layout_below="@id/description"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/weight"
+            android:text="Weight"
+            android:layout_below="@id/Boxes"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ride_distance"
+            android:text="Ride_Distance"
+            android:layout_below="@id/weight"
+            />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/accept"
             android:text="Accept"
-            android:layout_below="@id/distance"
+            android:layout_below="@id/ride_distance"
             />
         <Button
             android:layout_width="match_parent"

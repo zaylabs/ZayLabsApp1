@@ -76,7 +76,7 @@ public class HistoryFragment extends Fragment {
         mListview.setAdapter(usersListAdapter);
 
 
-        firestoreDB.collection("vt1customerRequest").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestoreDB.collection("customerRequest").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
                 if (e != null) {
