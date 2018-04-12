@@ -17,17 +17,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -60,25 +63,37 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+import com.zaylabs.zaylabsapp1.DTO.customerRequest;
 import com.zaylabs.zaylabsapp1.DTO.driverAvailable;
+import com.zaylabs.zaylabsapp1.DTO.driverProfile;
+import com.zaylabs.zaylabsapp1.RecycleViewAdapters.customerRequestAdapter;
+import com.zaylabs.zaylabsapp1.fragment.HistoryFragment;
+import com.zaylabs.zaylabsapp1.fragment.JobListFragment;
 
+import java.net.URI;
+import java.net.URL;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.List;
+
+import static android.content.ContentValues.TAG;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,ActivityCompat.OnRequestPermissionsResultCallback {
@@ -188,7 +203,7 @@ public class MainActivity extends BaseActivity
     private GoogleMap mMap;
 
     private FirebaseFirestore db;
-
+    public FrameLayout mFooter;
 
     SupportMapFragment sMapFragment;
 
@@ -197,6 +212,7 @@ public class MainActivity extends BaseActivity
     private DatabaseReference mDBRef;
     private FirebaseAuth mAuth;
     private String userID;
+    private String user_id;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
     private DatabaseReference mRefVT1Available;
@@ -212,23 +228,49 @@ public class MainActivity extends BaseActivity
     private ImageView mDisplayPic;
     private Switch mWorkingSwitch;
     private String mVahicleType;
-    private String TAG="";
+    private String TAG = "";
+
+    private FirebaseFirestore firestoreDB;
+    private RecyclerView mListview;
+
+
+    private List<customerRequest> cRequests;
+    private customerRequestAdapter customerRequestAdapter;
+    private FloatingActionButton fab;
+    private customerRequest request;
+
+
+    public String driverdp;
+    public String drivernic;
+    public String driverphone;
+    public String carregno;
+    public String driverName;
+    public String driverPhone;
+    public String driverEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-
         sMapFragment = SupportMapFragment.newInstance();
-
-
 
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mFooter = findViewById(R.id.footerframe);
+        mFooter.setVisibility(View.GONE);
+        firestoreDB = FirebaseFirestore.getInstance();
 
+
+        cRequests = new ArrayList<>();
+        customerRequestAdapter = new customerRequestAdapter(this, cRequests);
+        mListview = (RecyclerView) findViewById(R.id.mListView);
+        mListview.setHasFixedSize(true);
+
+        mListview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mListview.setAdapter(customerRequestAdapter);
 
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -237,8 +279,8 @@ public class MainActivity extends BaseActivity
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDBRef = mDatabase.child("users").child("driver").child(userID);
         mImageRef = mStorageRef.child(userID);
-        mRefVT1Available= mDatabase.child("driversAvailable").child("VT1");
-        mRefVT2Available= mDatabase.child("driversAvailable").child("VT2");
+        mRefVT1Available = mDatabase.child("driversAvailable").child("VT1");
+        mRefVT2Available = mDatabase.child("driversAvailable").child("VT2");
         db = FirebaseFirestore.getInstance();
   /*      geoFireVT1 = new GeoFire(mRefVT1Available);
         geoFireVT2 = new GeoFire(mRefVT2Available);
@@ -293,17 +335,19 @@ public class MainActivity extends BaseActivity
         //**************************************Location update End ****************************8
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                disconnectDriver();
-                mAuth.signOut();
+                if (mCurrentLocation != null) {
+
+                    viewJobList();
+                    fab.setVisibility(GONE);
+                }
             }
         });
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -313,23 +357,23 @@ public class MainActivity extends BaseActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View hView =  navigationView.getHeaderView(0);
+        View hView = navigationView.getHeaderView(0);
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        mDisplayPicURI =hView.findViewById(R.id.display_pic_uri);
+        mDisplayPicURI = hView.findViewById(R.id.display_pic_uri);
         mEmail = hView.findViewById(R.id.tv_email);
-        mName=hView.findViewById(R.id.tv_name);
-        mDisplayPic =hView.findViewById(R.id.imageView);
+        mName = hView.findViewById(R.id.tv_name);
+        mDisplayPic = hView.findViewById(R.id.imageView);
 
         mWorkingSwitch = hView.findViewById(R.id.workingSwitch);
 
         mWorkingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (mWorkingSwitch.isChecked()){
+                if (mWorkingSwitch.isChecked()) {
                     connectDriver();
-                }else {
+                } else {
                     disconnectDriver();
                 }
             }
@@ -337,10 +381,11 @@ public class MainActivity extends BaseActivity
         navigationView.getMenu().getItem(0).setCheckable(true);
         FragmentManager fm = getFragmentManager();
         android.support.v4.app.FragmentManager sFm = getSupportFragmentManager();
-        if (!sMapFragment.isAdded()){
-            sFm.beginTransaction().add(R.id.map,sMapFragment).commit();}
-        else{
-            sFm.beginTransaction().show(sMapFragment).commit();}
+        if (!sMapFragment.isAdded()) {
+            sFm.beginTransaction().add(R.id.map, sMapFragment).commit();
+        } else {
+            sFm.beginTransaction().show(sMapFragment).commit();
+        }
 
 
         sMapFragment.getMapAsync(this);
@@ -348,88 +393,22 @@ public class MainActivity extends BaseActivity
     }
 
 
-
-    private void connectDriver(){
-        Toast.makeText(MainActivity.this, "Driver Available"+mVahicleType, Toast.LENGTH_SHORT).show();
+    private void connectDriver() {
+        Toast.makeText(MainActivity.this, "Driver Available" + mVahicleType, Toast.LENGTH_SHORT).show();
 
         mRequestingLocationUpdates = true;
         startLocationUpdates();
+
     }
+
 
     private void saveLocation() {
 
-/*
+        GeoPoint driverlocation = new GeoPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        driverAvailable driveravailable = new driverAvailable(driverlocation);
+        db.collection("driveravailable").document(userID).set(driveravailable);
 
-        String mLati = mLatitudeTextView.getText().toString();
-        String mLongi = mLongitudeTextView.getText().toString();
-
-
-        Double mLatiFloat = Double.parseDouble(mLati);
-        Double mLongiFloat = Double.parseDouble(mLongi);
-*/
-
-
-        if (mVahicleType.equals("Suzuki") ) {
-
-            GeoPoint driverlocation = new GeoPoint(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-            driverAvailable sdriveravailable = new driverAvailable(driverlocation);
-
-            /*  Map<String, Object> driverVT1Available = new HashMap<>();
-
-            driverVT1Available.put("DriverLocation", driverlocation);*/
-            db.collection("suzukidriveravailable").document(userID).set(sdriveravailable);
-
-
-
-            //mRefVT1Available.updateChildren(driverVT1Available);
-            /*geoFireVT1.setLocation(userID, new GeoLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), new GeoFire.CompletionListener() {
-                @Override
-                public void onComplete(String key, DatabaseError error) {
-                    if (error != null) {
-                        Toast.makeText(com.zaylabs.truckitzaylabsv1driver.MainActivity.this, "There was an error saving the location to GeoFire: " + error, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(com.zaylabs.truckitzaylabsv1driver.MainActivity.this, "Location saved on server successfully!", Toast.LENGTH_LONG).show();
-
-                    }
-                }
-
-            });
-*/
-            /*Map<String, Object> driverVT1Available = new HashMap<>();
-
-            driverVT1Available.put("Latitude", mLati);
-
-            driverVT1Available.put("Longitude", mLongi);
-
-            mRefVT1Available.updateChildren(driverVT1Available);
-*/
-        } else if (mVahicleType.equals("Riksha")){
-
-            GeoPoint driverlocation = new GeoPoint(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-            driverAvailable rdriveravailable = new driverAvailable(driverlocation);
-
-            /*Map<String, Object> driverVT1Available = new HashMap<>();
-            GeoPoint driverlocation = new GeoPoint(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-            driverVT1Available.put("DriverLocation", driverlocation);*/
-            db.collection("rikshadriveravailable").document(userID).set(rdriveravailable);
-
-            /*geoFireVT2.setLocation(userID, new GeoLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), new GeoFire.CompletionListener() {
-                @Override
-                public void onComplete(String key, DatabaseError error) {
-                    if (error != null) {
-                        Toast.makeText(com.zaylabs.truckitzaylabsv1driver.MainActivity.this, "There was an error saving the location to GeoFire: " + error, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(com.zaylabs.truckitzaylabsv1driver.MainActivity.this, "Location saved on server successfully!", Toast.LENGTH_LONG).show();
-
-                    }
-                }
-            });*/
-            /*Map<String, Object> driverVT2Available = new HashMap<>();
-            driverVT2Available.put("Latitude", mLati);
-            driverVT2Available.put("Longitude", mLongi);
-            mRefVT2Available.updateChildren(driverVT2Available);*/
-        };
-        if(mNow != null) {
+        if (mNow != null) {
             mNow.remove();
         }
 
@@ -443,96 +422,55 @@ public class MainActivity extends BaseActivity
     }
 
 
-
     private void disconnectDriver() {
         Toast.makeText(MainActivity.this, "Driver Not Available", Toast.LENGTH_SHORT).show();
+        hideFooter();
         stopLocationUpdates();
 
-        if (mVahicleType.equals("Suzuki") ) {
-
-            db.collection("suzukidriveravailable").document(userID)
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error deleting document", e);
-                        }
-                    });
-
-            /*geoFireVT1.removeLocation(userID, new GeoFire.CompletionListener() {
-                @Override
-                public void onComplete(String key, DatabaseError error) {
-                    if (error != null) {
-                        Toast.makeText(com.zaylabs.truckitzaylabsv1driver.MainActivity.this, "There was an error saving the location to GeoFire: " + error, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(com.zaylabs.truckitzaylabsv1driver.MainActivity.this, "Location saved on server successfully!", Toast.LENGTH_LONG).show();
-
+        db.collection("driveravailable").document(userID)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
                     }
-                }
-            });
-*/        } else if (mVahicleType.equals("Riksha") ) {
-
-            db.collection("rikshadriveravailable").document(userID)
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error deleting document", e);
-                        }
-                    });
-
-            /*          geoFireVT2.removeLocation(userID, new GeoFire.CompletionListener() {
-                @Override
-                public void onComplete(String key, DatabaseError error) {
-                    if (error != null) {
-                        Toast.makeText(com.zaylabs.truckitzaylabsv1driver.MainActivity.this, "There was an error saving the location to GeoFire: " + error, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(com.zaylabs.truckitzaylabsv1driver.MainActivity.this, "Location saved on server successfully!", Toast.LENGTH_LONG).show();
-
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
                     }
-                }
-            });
-  */      };
+                });
+
     }
+
+
+
 
 
     private void getUserInfo(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            String name = user.getDisplayName();
-            mName.setText(name);
-            String email = user.getEmail();
-            mEmail.setText(email);
+            driverName = user.getDisplayName();
+            mName.setText(driverName);
+            driverEmail = user.getEmail();
+            mEmail.setText(driverEmail);
 
-            DocumentReference docRef = db.collection("vt").document(userID);
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            DocumentReference docRef = db.collection("drivers").document(userID);
+
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document != null && document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            mVahicleType = document.getString("vt");
-                        } else {
-                            Log.d(TAG, "No such document");
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    driverProfile profile = documentSnapshot.toObject(driverProfile.class);
+                    driverphone=profile.getPhone();
+                    driverdp=profile.getDisplaypic();
+                    carregno=profile.getReg_number();
+                    drivernic=profile.getCnic();
+                    mVahicleType=profile.getVt();
+
                 }
             });
+
 
 
   /*          mDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -604,31 +542,44 @@ public class MainActivity extends BaseActivity
         if (sMapFragment.isAdded())
             sFm.beginTransaction().hide(sMapFragment).commit();
 
+
         if (id == R.id.Home) {
+            hideFooter();
+            fab.setVisibility(VISIBLE);
             if (!sMapFragment.isAdded())
                 sFm.beginTransaction().add(R.id.map,sMapFragment).commit();
+
             else
                 sFm.beginTransaction().show(sMapFragment).commit();
         }
 
         else if (id == R.id.Profile) {
-
+            fab.setVisibility(GONE);
+            hideFooter();
             FragmentTransaction ft= getFragmentManager().beginTransaction();
             ft.replace(R.id.cm, new com.zaylabs.zaylabsapp1.fragment.ProfileFragment());
             ft.commit();
         } else if (id == R.id.History) {
+            fab.setVisibility(GONE);
+            hideFooter();
             FragmentTransaction ft= getFragmentManager().beginTransaction();
-            ft.replace(R.id.cm, new com.zaylabs.zaylabsapp1.fragment.HistoryFragment());
+            ft.replace(R.id.cm, new HistoryFragment());
             ft.commit();
         } else if (id == R.id.wallet) {
+            fab.setVisibility(GONE);
+            hideFooter();
             FragmentTransaction ft= getFragmentManager().beginTransaction();
             ft.replace(R.id.cm, new com.zaylabs.zaylabsapp1.fragment.WalletFragment());
             ft.commit();
         } else if (id == R.id.documents) {
+            fab.setVisibility(GONE);
+            hideFooter();
             FragmentTransaction ft= getFragmentManager().beginTransaction();
             ft.replace(R.id.cm, new com.zaylabs.zaylabsapp1.fragment.DocumentsFragment());
             ft.commit();
         } else if (id == R.id.action_settings) {
+            fab.setVisibility(GONE);
+            hideFooter();
             FragmentTransaction ft= getFragmentManager().beginTransaction();
             ft.replace(R.id.cm, new com.zaylabs.zaylabsapp1.fragment.SettingsFragment());
             ft.commit();
@@ -636,8 +587,10 @@ public class MainActivity extends BaseActivity
             disconnectDriver();
             mAuth.signOut();
         } else if (id == R.id.get_help) {
+            fab.setVisibility(GONE);
+            hideFooter();
             FragmentTransaction ft= getFragmentManager().beginTransaction();
-            ft.replace(R.id.cm, new com.zaylabs.zaylabsapp1.fragment.HistoryFragment());
+            ft.replace(R.id.cm, new JobListFragment());
             ft.commit();
 
         }
@@ -645,6 +598,13 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void hideFooter() {
+        mFooter.setVisibility(GONE);
+        cRequests.remove(request);
+
+
     }
 
     @Override
@@ -981,6 +941,9 @@ public class MainActivity extends BaseActivity
                     mLastUpdateTimeLabel, mLastUpdateTime));
 
          */   saveLocation();
+
+
+
             /*
              */
 /*if(mNow != null){
@@ -1011,6 +974,44 @@ public class MainActivity extends BaseActivity
 
 
         }
+    }
+
+    public void viewJobList() {
+
+            firestoreDB.collection("customerRequest").whereEqualTo("vt",mVahicleType).addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+                @Override
+                public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.d(TAG, "Error:" + e.getMessage());
+                    }
+                    for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
+                        switch (doc.getType()) {
+                            case ADDED:
+                                user_id = doc.getDocument().getId();
+                                request = doc.getDocument().toObject(customerRequest.class).withID(user_id);
+                                cRequests.add(request);
+                                customerRequestAdapter.notifyDataSetChanged();
+                                break;
+                            case MODIFIED:
+                                user_id = doc.getDocument().getId();
+                                request = doc.getDocument().toObject(customerRequest.class).withID(user_id);
+                                cRequests.add(request);
+                                customerRequestAdapter.notifyDataSetChanged();
+                                break;
+                            case REMOVED:
+                                cRequests.remove(request);
+                                customerRequestAdapter.notifyDataSetChanged();
+                                break;
+                        }
+
+                    }
+                    mFooter.setVisibility(View.VISIBLE);
+
+                }
+            });
+
+
     }
 
     /**

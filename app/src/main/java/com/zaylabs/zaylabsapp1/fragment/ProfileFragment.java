@@ -225,7 +225,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         String displaypic = mImageLink.getText().toString();
         String phone = mPhone.getText().toString();
         String name = mName.getText().toString();
-        driverProfile profile = new driverProfile(name,cnic,phone,vt,reg_number,currentDate,displaypic);
+        driverProfile profile = new driverProfile(name,cnic,phone,reg_number,vt,currentDate,displaypic);
         db.collection("drivers").document(userID).set(profile);
 
     }
