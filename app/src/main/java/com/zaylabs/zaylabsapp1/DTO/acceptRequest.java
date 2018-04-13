@@ -27,12 +27,13 @@ public class acceptRequest {
     private GeoPoint driverlocation;
     private String carregno;
     private String driverid;
+    private String uniqueID;
 
     acceptRequest(){
 
     }
 
-    public acceptRequest(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, String ridedistance, String pickupaddress, String dropaddress, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid ){
+    public acceptRequest(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, String ridedistance, String pickupaddress, String dropaddress, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid, String uniqueID ){
 
         this.name = name;
         this.pickup = pickup;
@@ -55,6 +56,7 @@ public class acceptRequest {
         this.driverlocation=driverlocation;
         this.carregno=carregno;
         this.driverid=driverid;
+        this.uniqueID=uniqueID;
     }
 
     public String getName() {
@@ -223,6 +225,14 @@ public class acceptRequest {
 
     public void setDriverid(String driverid) {
         this.driverid = driverid;
+    }
+
+    public String getUniqueID() {
+        return uniqueID;
+    }
+
+    public void setUniqueID(String uniqueID) {
+        this.uniqueID = uniqueID;
     }
 }
 

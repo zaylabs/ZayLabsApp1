@@ -211,7 +211,7 @@ public class MainActivity extends BaseActivity
     private StorageReference mImageRef;
     private DatabaseReference mDBRef;
     private FirebaseAuth mAuth;
-    private String userID;
+    public String userID;
     private String user_id;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
