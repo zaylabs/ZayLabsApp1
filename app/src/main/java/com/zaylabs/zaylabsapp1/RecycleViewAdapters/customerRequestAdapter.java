@@ -1,6 +1,7 @@
 package com.zaylabs.zaylabsapp1.RecycleViewAdapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.zaylabs.zaylabsapp1.DTO.customerRequest;
 import com.zaylabs.zaylabsapp1.DTO.driverAvailable;
 import com.zaylabs.zaylabsapp1.DTO.driverHistory;
 import com.zaylabs.zaylabsapp1.MainActivity;
+import com.zaylabs.zaylabsapp1.current_Ride;
 import com.zaylabs.zaylabsapp1.R;
 
 import java.util.Calendar;
@@ -135,7 +137,7 @@ public class customerRequestAdapter extends RecyclerView.Adapter<customerRequest
                             if (document != null && document.exists()) {
 
                                 driverHistory driverHistory = new driverHistory(cRequests.get(position).getName(), cRequests.get(position).getPickup(), cRequests.get(position).getDrop(), cRequests.get(position).getPhone(), cRequests.get(position).getDate(), cRequests.get(position).getCID(), cRequests.get(position).getVT(), cRequests.get(position).getWeight(), cRequests.get(position).getBoxes(), cRequests.get(position).getDescription(), cRequests.get(position).getDriverloading(), cRequests.get(position).getRidedistance(), cRequests.get(position).getPickupaddress(), cRequests.get(position).getDropaddress(), drivername, driverdp, drivernic, driverphone, driverLocation, carregno, userID, "Pending",null, null,null,uniqueID);
-                                acceptRequest acceptRequest = new acceptRequest(cRequests.get(position).getName(), cRequests.get(position).getPickup(), cRequests.get(position).getDrop(), cRequests.get(position).getPhone(), cRequests.get(position).getDate(), cRequests.get(position).getCID(), cRequests.get(position).getVT(), cRequests.get(position).getWeight(), cRequests.get(position).getBoxes(), cRequests.get(position).getDescription(), cRequests.get(position).getDriverloading(), cRequests.get(position).getRidedistance(), cRequests.get(position).getPickupaddress(), cRequests.get(position).getDropaddress(), drivername, driverdp, drivernic, driverphone, driverLocation, carregno, userID,uniqueID);
+                                acceptRequest acceptRequest = new acceptRequest(cRequests.get(position).getName(), cRequests.get(position).getPickup(), cRequests.get(position).getDrop(), cRequests.get(position).getPhone(), cRequests.get(position).getDate(), cRequests.get(position).getCID(), cRequests.get(position).getVT(), cRequests.get(position).getWeight(), cRequests.get(position).getBoxes(), cRequests.get(position).getDescription(), cRequests.get(position).getDriverloading(), cRequests.get(position).getRidedistance(), cRequests.get(position).getPickupaddress(), cRequests.get(position).getDropaddress(), drivername, driverdp, drivernic, driverphone, driverLocation, carregno, userID,"Pending",null, null,null,date,uniqueID);
                                 db.collection("acceptRequest").document(uniqueID).set(acceptRequest);
                                 db.collection("CustomerHistory").document(uniqueID).set(driverHistory);
                                 db.collection("DriverHistory").document(uniqueID).set(driverHistory);
@@ -144,7 +146,10 @@ public class customerRequestAdapter extends RecyclerView.Adapter<customerRequest
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                                Intent intent = new Intent(context,current_Ride.class);
+                                                context.startActivity(intent);
                                             }
+
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
@@ -158,6 +163,7 @@ public class customerRequestAdapter extends RecyclerView.Adapter<customerRequest
                         } else {
                                 Log.d(TAG, "get failed with ", task.getException());
                         }
+
                     }
                 });
 

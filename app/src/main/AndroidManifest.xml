@@ -55,6 +55,7 @@
         <activity
             android:name=".StubMapsClass.StubMapsActivity"
             android:label="@string/title_activity_stub_maps" />
+        <activity android:name=".current_Ride"></activity>
     </application>
 
 </manifest>

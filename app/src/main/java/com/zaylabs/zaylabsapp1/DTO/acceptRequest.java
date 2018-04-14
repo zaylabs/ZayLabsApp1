@@ -27,13 +27,18 @@ public class acceptRequest {
     private GeoPoint driverlocation;
     private String carregno;
     private String driverid;
+    private String status;
+    private String ridefare;
+    private String paidvia;
+    private String paymentstatus;
+    private Date statusdate;
     private String uniqueID;
 
     acceptRequest(){
 
     }
 
-    public acceptRequest(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, String ridedistance, String pickupaddress, String dropaddress, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid, String uniqueID ){
+    public acceptRequest(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, String ridedistance, String pickupaddress, String dropaddress, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid,String status,String ridefare, String paidvia, String paymentstatus, Date statusdate,String uniqueID ){
 
         this.name = name;
         this.pickup = pickup;
@@ -56,7 +61,13 @@ public class acceptRequest {
         this.driverlocation=driverlocation;
         this.carregno=carregno;
         this.driverid=driverid;
+        this.status=status;
+        this.ridefare=ridefare;
+        this.paidvia=paidvia;
+        this.paymentstatus=paymentstatus;
+        this.statusdate=statusdate;
         this.uniqueID=uniqueID;
+
     }
 
     public String getName() {
@@ -233,6 +244,46 @@ public class acceptRequest {
 
     public void setUniqueID(String uniqueID) {
         this.uniqueID = uniqueID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getRidefare() {
+        return ridefare;
+    }
+
+    public void setRidefare(String ridefare) {
+        this.ridefare = ridefare;
+    }
+
+    public String getPaidvia() {
+        return paidvia;
+    }
+
+    public void setPaidvia(String paidvia) {
+        this.paidvia = paidvia;
+    }
+
+    public String getPaymentstatus() {
+        return paymentstatus;
+    }
+
+    public void setPaymentstatus(String paymentstatus) {
+        this.paymentstatus = paymentstatus;
+    }
+
+    public Date getStatusdate() {
+        return statusdate;
+    }
+
+    public void setStatusdate(Date statusdate) {
+        this.statusdate = statusdate;
     }
 }
 
