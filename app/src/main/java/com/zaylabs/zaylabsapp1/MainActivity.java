@@ -238,7 +238,7 @@ public class MainActivity extends BaseActivity
     private customerRequestAdapter customerRequestAdapter;
     private FloatingActionButton fab;
     private customerRequest request;
-
+    public GeoPoint driverlocation;
 
     public String driverdp;
     public String drivernic;
@@ -404,7 +404,7 @@ public class MainActivity extends BaseActivity
 
     private void saveLocation() {
 
-        GeoPoint driverlocation = new GeoPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        driverlocation = new GeoPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         driverAvailable driveravailable = new driverAvailable(driverlocation);
         db.collection("driveravailable").document(userID).set(driveravailable);
 

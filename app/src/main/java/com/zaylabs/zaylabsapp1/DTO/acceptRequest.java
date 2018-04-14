@@ -17,7 +17,7 @@ public class acceptRequest {
     private String boxes;
     private String description;
     private String driverloading;
-    private String ridedistance;
+    private Float ridedistance;
     private String pickupaddress;
     private String dropaddress;
     private String drivername;
@@ -32,13 +32,14 @@ public class acceptRequest {
     private String paidvia;
     private String paymentstatus;
     private Date statusdate;
+    private Float waitingtime;
     private String uniqueID;
 
     acceptRequest(){
 
     }
 
-    public acceptRequest(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, String ridedistance, String pickupaddress, String dropaddress, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid,String status,String ridefare, String paidvia, String paymentstatus, Date statusdate,String uniqueID ){
+    public acceptRequest(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, Float ridedistance, String pickupaddress, String dropaddress, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid,String status,String ridefare, String paidvia, String paymentstatus, Date statusdate,Float waitingtime, String uniqueID ){
 
         this.name = name;
         this.pickup = pickup;
@@ -66,6 +67,7 @@ public class acceptRequest {
         this.paidvia=paidvia;
         this.paymentstatus=paymentstatus;
         this.statusdate=statusdate;
+        this.waitingtime=waitingtime;
         this.uniqueID=uniqueID;
 
     }
@@ -158,11 +160,11 @@ public class acceptRequest {
         this.driverloading = driverloading;
     }
 
-    public String getRidedistance() {
+    public Float getRidedistance() {
         return ridedistance;
     }
 
-    public void setRidedistance(String ridedistance) {
+    public void setRidedistance(Float ridedistance) {
         this.ridedistance = ridedistance;
     }
 
@@ -284,6 +286,14 @@ public class acceptRequest {
 
     public void setStatusdate(Date statusdate) {
         this.statusdate = statusdate;
+    }
+
+    public Float getWaitingtime() {
+        return waitingtime;
+    }
+
+    public void setWaitingtime(Float waitingtime) {
+        this.waitingtime = waitingtime;
     }
 }
 

@@ -40,15 +40,14 @@ public class current_Ride extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         driverID = mAuth.getCurrentUser().getUid();
-
-
-
         dHistory = new ArrayList<>();
+
         currentRideAdapter = new currentRideAdapter(this,dHistory);
-        mDhistory = (RecyclerView)findViewById(R.id.driverHistoryRV);
+        mDhistory = (RecyclerView)findViewById(R.id.currentRideRV);
         mDhistory.setHasFixedSize(true);
         mDhistory.setLayoutManager(new LinearLayoutManager(this));
         mDhistory.setAdapter(currentRideAdapter);
+
 
         firestoreDB.collection("acceptRequest").whereEqualTo("driverid", driverID).addSnapshotListener(new EventListener<QuerySnapshot>() {
 

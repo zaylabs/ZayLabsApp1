@@ -2,6 +2,7 @@ package com.zaylabs.zaylabsapp1.RecycleViewAdapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,12 +21,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.zaylabs.zaylabsapp1.DTO.Userid;
 import com.zaylabs.zaylabsapp1.DTO.acceptRequest;
+import com.zaylabs.zaylabsapp1.DTO.driverAvailable;
 import com.zaylabs.zaylabsapp1.DTO.driverHistory;
+import com.zaylabs.zaylabsapp1.MainActivity;
 import com.zaylabs.zaylabsapp1.R;
 import com.zaylabs.zaylabsapp1.current_Ride;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -35,14 +40,21 @@ public class currentRideAdapter extends RecyclerView.Adapter<currentRideAdapter.
 
 private final Context context;
 private final List<acceptRequest> dHistory;
-
+private Location mCurrentLocation;
+private GeoPoint CurrentLocation;
+private GeoPoint OldLocation;
 private FirebaseFirestore db;
 private FirebaseAuth mAuth;
 private String userID;
 private String UniqueID;
-    private Date date =  Calendar.getInstance().getTime();
+private Date date =  Calendar.getInstance().getTime();
+private Date waitDate1;
+private Date waitDate2;
+private Float waiting;
+Float distance;
 
-    public currentRideAdapter(Context context, List<acceptRequest> dHistory){
+
+public currentRideAdapter(Context context, List<acceptRequest> dHistory){
 
         this.context = context;
         this.dHistory = dHistory;
@@ -67,13 +79,69 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
 
     userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
+    if (userID!=null){
+    final DocumentReference docRef = db.collection("driveravailable").document(userID);
+    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document != null && document.exists()) {
+                    CurrentLocation=document.toObject(driverAvailable.class).getDriverLocation();
+                }
+            }
+        }
+
+
+    });}
+
+
+
+
+
+    waitDate1 = dHistory.get(position).getStatusdate();
+    waitDate2 = date;
+    Float wait = (float) (waitDate1.getTime() - waitDate2.getTime());
+    waiting = (wait % (1000*60*60));
+
+
+        Location loc1 = new Location("");
+        loc1.setLatitude(OldLocation.getLatitude());
+        loc1.setLongitude(OldLocation.getLongitude());
+
+        Location loc2 = new Location("");
+        loc2.setLatitude(CurrentLocation.getLatitude());
+        loc2.setLongitude(CurrentLocation.getLongitude());
+
+        distance = loc1.distanceTo(loc2)/1000;
+
+        Float result = null;
+        Float b;
+        Float a = distance;
+    if (dHistory.get(position).getVT().contains("Riksha")) {
+        b = (a * 200) + 600;
+        if (dHistory.get(position).getDriverloading().contains("Diver Loading Needed")) {
+            result = b + 150;
+        } else {
+            result = b;
+        }}
+    else if (dHistory.get(position).getVT().contains("Suzuki")) {
+        b = (a * 90) + 270;
+        if (dHistory.get(position).getDriverloading().contains("Diver Loading Needed")) {
+            result = b + 150;
+        } else {
+            result = b;
+        }
+    }
+    final String results = (String.valueOf(result));
+
 
     holder.mName.setText(dHistory.get(position).getName());
         holder.mPickup.setText(dHistory.get(position).getPickupaddress());
         holder.mDrop.setText(dHistory.get(position).getDropaddress());
         holder.mPhone.setText(dHistory.get(position).getPhone());
         holder.mstatus.setText(dHistory.get(position).getStatus());
-        holder.mRideDistance.setText(dHistory.get(position).getRidedistance());
+        holder.mRideDistance.setText(String.valueOf(dHistory.get(position).getRidedistance()));
         holder.mDiscription.setText(dHistory.get(position).getDescription());
         holder.mBoxes.setText(dHistory.get(position).getBoxes());
         holder.mWeight.setText(dHistory.get(position).getWeight());
@@ -95,8 +163,8 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                             DocumentSnapshot document = task.getResult();
                             if (document != null && document.exists()) {
 
-                                driverHistory driverHistory = new driverHistory(dHistory.get(position).getName(), dHistory.get(position).getPickup(), dHistory.get(position).getDrop(), dHistory.get(position).getPhone(), dHistory.get(position).getDate(), dHistory.get(position).getCID(), dHistory.get(position).getVT(), dHistory.get(position).getWeight(), dHistory.get(position).getBoxes(), dHistory.get(position).getDescription(), dHistory.get(position).getDriverloading(), dHistory.get(position).getRidedistance(), dHistory.get(position).getPickupaddress(), dHistory.get(position).getDropaddress(), dHistory.get(position).getDrivername(), dHistory.get(position).getDriverdp(), dHistory.get(position).getDrivernic(), dHistory.get(position).getDriverphone(), dHistory.get(position).getDriverlocation(), dHistory.get(position).getCarregno(), dHistory.get(position).getDriverid(), "Waiting", null, null, null, dHistory.get(position).getUniqueID());
-                                acceptRequest acceptRequest = new acceptRequest(dHistory.get(position).getName(), dHistory.get(position).getPickup(), dHistory.get(position).getDrop(), dHistory.get(position).getPhone(), dHistory.get(position).getDate(), dHistory.get(position).getCID(), dHistory.get(position).getVT(), dHistory.get(position).getWeight(), dHistory.get(position).getBoxes(), dHistory.get(position).getDescription(), dHistory.get(position).getDriverloading(), dHistory.get(position).getRidedistance(), dHistory.get(position).getPickupaddress(), dHistory.get(position).getDropaddress(), dHistory.get(position).getDrivername(), dHistory.get(position).getDriverdp(), dHistory.get(position).getDrivernic(), dHistory.get(position).getDriverphone(), dHistory.get(position).getDriverlocation(), dHistory.get(position).getCarregno(), dHistory.get(position).getDriverid(), "Waiting", null, null, null, date, dHistory.get(position).getUniqueID());
+                                driverHistory driverHistory = new driverHistory(dHistory.get(position).getName(), CurrentLocation, dHistory.get(position).getDrop(), dHistory.get(position).getPhone(), dHistory.get(position).getDate(), dHistory.get(position).getCID(), dHistory.get(position).getVT(), dHistory.get(position).getWeight(), dHistory.get(position).getBoxes(), dHistory.get(position).getDescription(), dHistory.get(position).getDriverloading(), dHistory.get(position).getRidedistance(), dHistory.get(position).getPickupaddress(), dHistory.get(position).getDropaddress(), dHistory.get(position).getDrivername(), dHistory.get(position).getDriverdp(), dHistory.get(position).getDrivernic(), dHistory.get(position).getDriverphone(), CurrentLocation, dHistory.get(position).getCarregno(), dHistory.get(position).getDriverid(), "Waiting", null, null, null, null,dHistory.get(position).getUniqueID());
+                                acceptRequest acceptRequest = new acceptRequest(dHistory.get(position).getName(), CurrentLocation, dHistory.get(position).getDrop(), dHistory.get(position).getPhone(), dHistory.get(position).getDate(), dHistory.get(position).getCID(), dHistory.get(position).getVT(), dHistory.get(position).getWeight(), dHistory.get(position).getBoxes(), dHistory.get(position).getDescription(), dHistory.get(position).getDriverloading(), dHistory.get(position).getRidedistance(), dHistory.get(position).getPickupaddress(), dHistory.get(position).getDropaddress(), dHistory.get(position).getDrivername(), dHistory.get(position).getDriverdp(), dHistory.get(position).getDrivernic(), dHistory.get(position).getDriverphone(), CurrentLocation, dHistory.get(position).getCarregno(), dHistory.get(position).getDriverid(), "Waiting", null, null, null, date,null, dHistory.get(position).getUniqueID());
                                 db.collection("acceptRequest").document(UniqueID).set(acceptRequest);
                                 db.collection("CustomerHistory").document(UniqueID).set(driverHistory);
                                 db.collection("DriverHistory").document(UniqueID).set(driverHistory);
@@ -109,6 +177,63 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                 });
                }
             });
+        holder.mStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.mStart.setVisibility(View.GONE);
+                holder.mFinish.setVisibility(View.VISIBLE);
+                OldLocation=CurrentLocation;
+                DocumentReference docRef = db.collection("acceptRequest").document(UniqueID);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document != null && document.exists()) {
+
+                                driverHistory driverHistory = new driverHistory(dHistory.get(position).getName(), CurrentLocation, dHistory.get(position).getDrop(), dHistory.get(position).getPhone(), dHistory.get(position).getDate(), dHistory.get(position).getCID(), dHistory.get(position).getVT(), dHistory.get(position).getWeight(), dHistory.get(position).getBoxes(), dHistory.get(position).getDescription(), dHistory.get(position).getDriverloading(), distance, dHistory.get(position).getPickupaddress(), dHistory.get(position).getDropaddress(), dHistory.get(position).getDrivername(), dHistory.get(position).getDriverdp(), dHistory.get(position).getDrivernic(), dHistory.get(position).getDriverphone(), CurrentLocation, dHistory.get(position).getCarregno(), dHistory.get(position).getDriverid(), "On-Ride", null, null, null, waiting,dHistory.get(position).getUniqueID());
+                                acceptRequest acceptRequest = new acceptRequest(dHistory.get(position).getName(), CurrentLocation, dHistory.get(position).getDrop(), dHistory.get(position).getPhone(), dHistory.get(position).getDate(), dHistory.get(position).getCID(), dHistory.get(position).getVT(), dHistory.get(position).getWeight(), dHistory.get(position).getBoxes(), dHistory.get(position).getDescription(), dHistory.get(position).getDriverloading(), distance, dHistory.get(position).getPickupaddress(), dHistory.get(position).getDropaddress(), dHistory.get(position).getDrivername(), dHistory.get(position).getDriverdp(), dHistory.get(position).getDrivernic(), dHistory.get(position).getDriverphone(), CurrentLocation, dHistory.get(position).getCarregno(), dHistory.get(position).getDriverid(), "On-Ride", null, null, null, date,waiting, dHistory.get(position).getUniqueID());
+                                db.collection("acceptRequest").document(UniqueID).set(acceptRequest);
+                                db.collection("CustomerHistory").document(UniqueID).set(driverHistory);
+                                db.collection("DriverHistory").document(UniqueID).set(driverHistory);
+
+                            }
+                        }
+                    }
+
+
+                });
+            }
+
+        });
+
+        holder.mFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.mFinish.setVisibility(View.GONE);
+                holder.mPayment.setVisibility(View.VISIBLE);
+                DocumentReference docRef = db.collection("acceptRequest").document(UniqueID);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document != null && document.exists()) {
+
+                                driverHistory driverHistory = new driverHistory(dHistory.get(position).getName(), OldLocation, CurrentLocation, dHistory.get(position).getPhone(), dHistory.get(position).getDate(), dHistory.get(position).getCID(), dHistory.get(position).getVT(), dHistory.get(position).getWeight(), dHistory.get(position).getBoxes(), dHistory.get(position).getDescription(), dHistory.get(position).getDriverloading(), dHistory.get(position).getRidedistance(), dHistory.get(position).getPickupaddress(), dHistory.get(position).getDropaddress(), dHistory.get(position).getDrivername(), dHistory.get(position).getDriverdp(), dHistory.get(position).getDrivernic(), dHistory.get(position).getDriverphone(), CurrentLocation, dHistory.get(position).getCarregno(), dHistory.get(position).getDriverid(), "Reached Destination", results, null, "Pending", dHistory.get(position).getWaitingtime(),dHistory.get(position).getUniqueID());
+                                acceptRequest acceptRequest = new acceptRequest(dHistory.get(position).getName(), OldLocation, CurrentLocation, dHistory.get(position).getPhone(), dHistory.get(position).getDate(), dHistory.get(position).getCID(), dHistory.get(position).getVT(), dHistory.get(position).getWeight(), dHistory.get(position).getBoxes(), dHistory.get(position).getDescription(), dHistory.get(position).getDriverloading(), dHistory.get(position).getRidedistance(), dHistory.get(position).getPickupaddress(), dHistory.get(position).getDropaddress(), dHistory.get(position).getDrivername(), dHistory.get(position).getDriverdp(), dHistory.get(position).getDrivernic(), dHistory.get(position).getDriverphone(), CurrentLocation, dHistory.get(position).getCarregno(), dHistory.get(position).getDriverid(), "On-Ride", results, null, "Pending", date,waiting, dHistory.get(position).getUniqueID());
+                                db.collection("acceptRequest").document(UniqueID).set(acceptRequest);
+                                db.collection("CustomerHistory").document(UniqueID).set(driverHistory);
+                                db.collection("DriverHistory").document(UniqueID).set(driverHistory);
+
+                            }
+                        }
+                    }
+
+
+                });
+            }
+        });
         }
 
 @Override
@@ -144,6 +269,8 @@ public class ViewHolder extends RecyclerView.ViewHolder{
 
     }
 }
+
+
     }
 
 

@@ -101,11 +101,12 @@ public class customerRequestAdapter extends RecyclerView.Adapter<customerRequest
         loc2.setLongitude(mPick.getLongitude());
 
         float distance = loc1.distanceTo(loc2)/1000;
+
         holder.mName.setText(cRequests.get(position).getName());
         holder.mPickup.setText(cRequests.get(position).getPickupaddress());
         holder.mDrop.setText(cRequests.get(position).getDropaddress());
         holder.mPhone.setText(cRequests.get(position).getPhone());
-        holder.mRideDistance.setText(cRequests.get(position).getRidedistance());
+        holder.mRideDistance.setText(String.valueOf(cRequests.get(position).getRidedistance()));
         holder.mDiscription.setText(cRequests.get(position).getDescription());
         holder.mBoxes.setText(cRequests.get(position).getBoxes());
         holder.mWeight.setText(cRequests.get(position).getWeight());
@@ -136,8 +137,8 @@ public class customerRequestAdapter extends RecyclerView.Adapter<customerRequest
                             DocumentSnapshot document = task.getResult();
                             if (document != null && document.exists()) {
 
-                                driverHistory driverHistory = new driverHistory(cRequests.get(position).getName(), cRequests.get(position).getPickup(), cRequests.get(position).getDrop(), cRequests.get(position).getPhone(), cRequests.get(position).getDate(), cRequests.get(position).getCID(), cRequests.get(position).getVT(), cRequests.get(position).getWeight(), cRequests.get(position).getBoxes(), cRequests.get(position).getDescription(), cRequests.get(position).getDriverloading(), cRequests.get(position).getRidedistance(), cRequests.get(position).getPickupaddress(), cRequests.get(position).getDropaddress(), drivername, driverdp, drivernic, driverphone, driverLocation, carregno, userID, "Pending",null, null,null,uniqueID);
-                                acceptRequest acceptRequest = new acceptRequest(cRequests.get(position).getName(), cRequests.get(position).getPickup(), cRequests.get(position).getDrop(), cRequests.get(position).getPhone(), cRequests.get(position).getDate(), cRequests.get(position).getCID(), cRequests.get(position).getVT(), cRequests.get(position).getWeight(), cRequests.get(position).getBoxes(), cRequests.get(position).getDescription(), cRequests.get(position).getDriverloading(), cRequests.get(position).getRidedistance(), cRequests.get(position).getPickupaddress(), cRequests.get(position).getDropaddress(), drivername, driverdp, drivernic, driverphone, driverLocation, carregno, userID,"Pending",null, null,null,date,uniqueID);
+                                driverHistory driverHistory = new driverHistory(cRequests.get(position).getName(), cRequests.get(position).getPickup(), cRequests.get(position).getDrop(), cRequests.get(position).getPhone(), cRequests.get(position).getDate(), cRequests.get(position).getCID(), cRequests.get(position).getVT(), cRequests.get(position).getWeight(), cRequests.get(position).getBoxes(), cRequests.get(position).getDescription(), cRequests.get(position).getDriverloading(), cRequests.get(position).getRidedistance(), cRequests.get(position).getPickupaddress(), cRequests.get(position).getDropaddress(), drivername, driverdp, drivernic, driverphone, driverLocation, carregno, userID, "Pending",null, null,null,null,uniqueID);
+                                acceptRequest acceptRequest = new acceptRequest(cRequests.get(position).getName(), cRequests.get(position).getPickup(), cRequests.get(position).getDrop(), cRequests.get(position).getPhone(), cRequests.get(position).getDate(), cRequests.get(position).getCID(), cRequests.get(position).getVT(), cRequests.get(position).getWeight(), cRequests.get(position).getBoxes(), cRequests.get(position).getDescription(), cRequests.get(position).getDriverloading(), cRequests.get(position).getRidedistance(), cRequests.get(position).getPickupaddress(), cRequests.get(position).getDropaddress(), drivername, driverdp, drivernic, driverphone, driverLocation, carregno, userID,"Pending",null, null,null,date,null,uniqueID);
                                 db.collection("acceptRequest").document(uniqueID).set(acceptRequest);
                                 db.collection("CustomerHistory").document(uniqueID).set(driverHistory);
                                 db.collection("DriverHistory").document(uniqueID).set(driverHistory);

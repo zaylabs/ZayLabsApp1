@@ -17,7 +17,7 @@ public class driverHistory {
         private String boxes;
         private String description;
         private String driverloading;
-        private String ridedistance;
+        private Float ridedistance;
         private String pickupaddress;
         private String dropaddress;
         private String drivername;
@@ -31,6 +31,7 @@ public class driverHistory {
         private String ridefare;
         private String paidvia;
         private String paymentstatus;
+        private Float waitingtime;
         private String uniqueID;
 
 
@@ -38,7 +39,7 @@ public class driverHistory {
 
         }
 
-        public driverHistory(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, String ridedistance, String pickupaddress, String dropaddress, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid, String status,String ridefare, String paidvia, String paymentstatus, String uniqueID){
+        public driverHistory(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, Float ridedistance, String pickupaddress, String dropaddress, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid, String status,String ridefare, String paidvia, String paymentstatus, Float waitingtime, String uniqueID){
 
             this.name = name;
             this.pickup = pickup;
@@ -65,6 +66,7 @@ public class driverHistory {
             this.ridefare=ridefare;
             this.paidvia=paidvia;
             this.paymentstatus=paymentstatus;
+            this.waitingtime=waitingtime;
             this.uniqueID = uniqueID;
         }
 
@@ -156,15 +158,15 @@ public class driverHistory {
             this.driverloading = driverloading;
         }
 
-        public String getRidedistance() {
-            return ridedistance;
-        }
+    public Float getRidedistance() {
+        return ridedistance;
+    }
 
-        public void setRidedistance(String ridedistance) {
-            this.ridedistance = ridedistance;
-        }
+    public void setRidedistance(Float ridedistance) {
+        this.ridedistance = ridedistance;
+    }
 
-        public String getPickupaddress() {
+    public String getPickupaddress() {
             return pickupaddress;
         }
 
@@ -274,6 +276,14 @@ public class driverHistory {
 
     public void setUniqueID(String uniqueID) {
         this.uniqueID = uniqueID;
+    }
+
+    public Float getWaitingtime() {
+        return waitingtime;
+    }
+
+    public void setWaitingtime(Float waitingtime) {
+        this.waitingtime = waitingtime;
     }
 }
 
