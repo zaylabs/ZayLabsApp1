@@ -125,8 +125,10 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                 String Status = "Waiting";
                 driverHistory driverHistory = new driverHistory(
                         dHistory.get(position).getName(),
-                        dHistory.get(position).getPickup(),
-                        dHistory.get(position).getDrop(),
+                        dHistory.get(position).getOriginalpickup(),
+                        dHistory.get(position).getOriginaldrop(),
+                        dHistory.get(position).getActualpickup(),
+                        dHistory.get(position).getActualpickup(),
                         dHistory.get(position).getPhone(),
                         dHistory.get(position).getDate(),
                         dHistory.get(position).getCID(),
@@ -138,6 +140,7 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                         dHistory.get(position).getRidedistance(),
                         dHistory.get(position).getPickupaddress(),
                         dHistory.get(position).getDropaddress(),
+                        dHistory.get(position).getEstFare(),
                         dHistory.get(position).getDrivername(),
                         dHistory.get(position).getDriverdp(),
                         dHistory.get(position).getDrivernic(),
@@ -153,8 +156,10 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                         dHistory.get(position).getUniqueID());
                 acceptRequest acceptRequest = new acceptRequest(
                         dHistory.get(position).getName(),
-                        dHistory.get(position).getPickup(),
-                        dHistory.get(position).getDrop(),
+                        dHistory.get(position).getOriginalpickup(),
+                        dHistory.get(position).getOriginaldrop(),
+                        dHistory.get(position).getActualpickup(),
+                        dHistory.get(position).getActualdrop(),
                         dHistory.get(position).getPhone(),
                         dHistory.get(position).getDate(),
                         dHistory.get(position).getCID(),
@@ -166,6 +171,7 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                         dHistory.get(position).getRidedistance(),
                         dHistory.get(position).getPickupaddress(),
                         dHistory.get(position).getDropaddress(),
+                        dHistory.get(position).getEstFare(),
                         dHistory.get(position).getDrivername(),
                         dHistory.get(position).getDriverdp(),
                         dHistory.get(position).getDrivernic(),
@@ -197,13 +203,15 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                 waitDate2 = date;
                 Float wait = (float) (waitDate1.getTime() - waitDate2.getTime());
                 waiting = (wait % (1000*60*60));
-                OldLocation=CurrentLocation;
+
                 String Status = "On-Ride";
 
                 driverHistory driverHistory = new driverHistory(
                         dHistory.get(position).getName(),
-                        OldLocation,
-                        dHistory.get(position).getDrop(),
+                        dHistory.get(position).getOriginalpickup(),
+                        dHistory.get(position).getOriginaldrop(),
+                        CurrentLocation,
+                        dHistory.get(position).getActualdrop(),
                         dHistory.get(position).getPhone(),
                         dHistory.get(position).getDate(),
                         dHistory.get(position).getCID(),
@@ -215,6 +223,7 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                         dHistory.get(position).getRidedistance(),
                         dHistory.get(position).getPickupaddress(),
                         dHistory.get(position).getDropaddress(),
+                        dHistory.get(position).getEstFare(),
                         dHistory.get(position).getDrivername(),
                         dHistory.get(position).getDriverdp(),
                         dHistory.get(position).getDrivernic(),
@@ -230,8 +239,10 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                         dHistory.get(position).getUniqueID());
                 acceptRequest acceptRequest = new acceptRequest(
                         dHistory.get(position).getName(),
-                        OldLocation,
-                        dHistory.get(position).getDrop(),
+                        dHistory.get(position).getOriginalpickup(),
+                        dHistory.get(position).getOriginaldrop(),
+                        CurrentLocation,
+                        dHistory.get(position).getActualdrop(),
                         dHistory.get(position).getPhone(),
                         dHistory.get(position).getDate(),
                         dHistory.get(position).getCID(),
@@ -243,6 +254,7 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                         dHistory.get(position).getRidedistance(),
                         dHistory.get(position).getPickupaddress(),
                         dHistory.get(position).getDropaddress(),
+                        dHistory.get(position).getEstFare(),
                         dHistory.get(position).getDrivername(),
                         dHistory.get(position).getDriverdp(),
                         dHistory.get(position).getDrivernic(),
@@ -274,8 +286,8 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
 
                 String Status = "Waiting for Payment";
                 Location loc1 = new Location("");
-                loc1.setLatitude(dHistory.get(position).getPickup().getLatitude());
-                loc1.setLongitude(dHistory.get(position).getPickup().getLongitude());
+                loc1.setLatitude(dHistory.get(position).getActualpickup().getLatitude());
+                loc1.setLongitude(dHistory.get(position).getActualpickup().getLongitude());
 
                 Location loc2 = new Location("");
                 loc2.setLatitude(CurrentLocation.getLatitude());
@@ -304,7 +316,9 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                 final String results = (String.valueOf(result));
                                 driverHistory driverHistory = new driverHistory(
                                         dHistory.get(position).getName(),
-                                        dHistory.get(position).getPickup(),
+                                        dHistory.get(position).getOriginalpickup(),
+                                        dHistory.get(position).getOriginaldrop(),
+                                        dHistory.get(position).getActualpickup(),
                                         CurrentLocation,
                                         dHistory.get(position).getPhone(),
                                         dHistory.get(position).getDate(),
@@ -317,6 +331,7 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                                         distance,
                                         dHistory.get(position).getPickupaddress(),
                                         dHistory.get(position).getDropaddress(),
+                                        dHistory.get(position).getEstFare(),
                                         dHistory.get(position).getDrivername(),
                                         dHistory.get(position).getDriverdp(),
                                         dHistory.get(position).getDrivernic(),
@@ -332,7 +347,9 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                                         dHistory.get(position).getUniqueID());
                                 acceptRequest acceptRequest = new acceptRequest(
                                         dHistory.get(position).getName(),
-                                        dHistory.get(position).getPickup(),
+                                        dHistory.get(position).getOriginalpickup(),
+                                        dHistory.get(position).getOriginaldrop(),
+                                        dHistory.get(position).getActualpickup(),
                                         CurrentLocation,
                                         dHistory.get(position).getPhone(),
                                         dHistory.get(position).getDate(),
@@ -345,6 +362,7 @@ public void onBindViewHolder(@NonNull final currentRideAdapter.ViewHolder holder
                                         distance,
                                         dHistory.get(position).getPickupaddress(),
                                         dHistory.get(position).getDropaddress(),
+                                        dHistory.get(position).getEstFare(),
                                         dHistory.get(position).getDrivername(),
                                         dHistory.get(position).getDriverdp(),
                                         dHistory.get(position).getDrivernic(),

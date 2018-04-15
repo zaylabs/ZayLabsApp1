@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class customerRequest extends Userid {
 
+
     private String name;
     private String phone;
     private GeoPoint pickup;
@@ -20,12 +21,13 @@ public class customerRequest extends Userid {
     private Float ridedistance;
     private String pickupaddress;
     private String dropaddress;
+    private String estFare;
     private String uniqueID;
     customerRequest(){
 
     }
 
-    public customerRequest(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, Float ridedistance, String pickupaddress, String dropaddress, String uniqueID){
+    public customerRequest(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, Float ridedistance, String pickupaddress, String dropaddress,String estFare, String uniqueID){
 
         this.name = name;
         this.pickup = pickup;
@@ -41,7 +43,8 @@ public class customerRequest extends Userid {
         this.ridedistance=ridedistance;
         this.pickupaddress=pickupaddress;
         this.dropaddress=dropaddress;
-        this.uniqueID=uniqueID;
+        this.estFare=estFare;
+        this.uniqueID = uniqueID;
     }
 
     public String getName() {
@@ -156,6 +159,14 @@ public class customerRequest extends Userid {
         this.dropaddress = dropaddress;
     }
 
+    public String getEstFare() {
+        return estFare;
+    }
+
+    public void setEstFare(String estFare) {
+        this.estFare = estFare;
+    }
+
     public String getUniqueID() {
         return uniqueID;
     }
@@ -164,3 +175,4 @@ public class customerRequest extends Userid {
         this.uniqueID = uniqueID;
     }
 }
+

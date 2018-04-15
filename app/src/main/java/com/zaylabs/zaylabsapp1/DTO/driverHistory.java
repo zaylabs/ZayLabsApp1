@@ -6,44 +6,49 @@ import java.util.Date;
 
 public class driverHistory {
 
-        private String name;
-        private String phone;
-        private GeoPoint pickup;
-        private GeoPoint drop;
-        private Date date;
-        private String CID;
-        private String VT;
-        private String weight;
-        private String boxes;
-        private String description;
-        private String driverloading;
-        private Float ridedistance;
-        private String pickupaddress;
-        private String dropaddress;
-        private String drivername;
-        private String driverdp;
-        private String drivernic;
-        private String driverphone;
-        private GeoPoint driverlocation;
-        private String carregno;
-        private String driverid;
-        private String status;
-        private String ridefare;
-        private String paidvia;
-        private String paymentstatus;
-        private Float waitingtime;
-        private String uniqueID;
 
+    private String name;
+    private String phone;
+    private GeoPoint originalpickup;
+    private GeoPoint originaldrop;
+    private GeoPoint actualpickup;
+    private GeoPoint actualdrop;
+    private Date date;
+    private String CID;
+    private String VT;
+    private String weight;
+    private String boxes;
+    private String description;
+    private String driverloading;
+    private Float ridedistance;
+    private String pickupaddress;
+    private String dropaddress;
+    private String estFare;
+    private String drivername;
+    private String driverdp;
+    private String drivernic;
+    private String driverphone;
+    private GeoPoint driverlocation;
+    private String carregno;
+    private String driverid;
+    private String status;
+    private String ridefare;
+    private String paidvia;
+    private String paymentstatus;
+    private Float waitingtime;
+    private String uniqueID;
 
     driverHistory(){
 
         }
 
-        public driverHistory(String name, GeoPoint pickup,GeoPoint drop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, Float ridedistance, String pickupaddress, String dropaddress, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid, String status,String ridefare, String paidvia, String paymentstatus, Float waitingtime, String uniqueID){
+        public driverHistory (String name, GeoPoint originalpickup,GeoPoint originaldrop, GeoPoint actualpickup, GeoPoint actualdrop, String phone, Date date, String CID, String VT, String weight, String boxes ,String description, String driverloading, Float ridedistance, String pickupaddress, String dropaddress,String estFare, String drivername, String driverdp, String drivernic, String driverphone, GeoPoint driverlocation, String carregno, String driverid, String status,String ridefare, String paidvia, String paymentstatus,Float waitingtime, String uniqueID){
 
             this.name = name;
-            this.pickup = pickup;
-            this.drop = drop;
+            this.originalpickup = originalpickup;
+            this.originaldrop = originaldrop;
+            this.actualpickup=actualpickup;
+            this.actualdrop=actualdrop;
             this.phone = phone;
             this.date =date;
             this.CID = CID;
@@ -55,6 +60,7 @@ public class driverHistory {
             this.ridedistance=ridedistance;
             this.pickupaddress=pickupaddress;
             this.dropaddress=dropaddress;
+            this.estFare=estFare;
             this.drivername=drivername;
             this.driverdp=driverdp;
             this.drivernic=drivernic;
@@ -66,97 +72,83 @@ public class driverHistory {
             this.ridefare=ridefare;
             this.paidvia=paidvia;
             this.paymentstatus=paymentstatus;
+            this.uniqueID=uniqueID;
             this.waitingtime=waitingtime;
-            this.uniqueID = uniqueID;
+
         }
 
-        public String getName() {
-            return name;
-        }
+    public String getName() {
+        return name;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public String getPhone() {
-            return phone;
-        }
+    public String getPhone() {
+        return phone;
+    }
 
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-        public GeoPoint getPickup() {
-            return pickup;
-        }
 
-        public void setPickup(GeoPoint pickup) {
-            this.pickup = pickup;
-        }
+    public Date getDate() {
+        return date;
+    }
 
-        public GeoPoint getDrop() {
-            return drop;
-        }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-        public void setDrop(GeoPoint drop) {
-            this.drop = drop;
-        }
+    public String getCID() {
+        return CID;
+    }
 
-        public Date getDate() {
-            return date;
-        }
+    public void setCID(String CID) {
+        this.CID = CID;
+    }
 
-        public void setDate(Date date) {
-            this.date = date;
-        }
+    public String getVT() {
+        return VT;
+    }
 
-        public String getCID() {
-            return CID;
-        }
+    public void setVT(String VT) {
+        this.VT = VT;
+    }
 
-        public void setCID(String CID) {
-            this.CID = CID;
-        }
+    public String getWeight() {
+        return weight;
+    }
 
-        public String getVT() {
-            return VT;
-        }
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
 
-        public void setVT(String VT) {
-            this.VT = VT;
-        }
+    public String getBoxes() {
+        return boxes;
+    }
 
-        public String getWeight() {
-            return weight;
-        }
+    public void setBoxes(String boxes) {
+        this.boxes = boxes;
+    }
 
-        public void setWeight(String weight) {
-            this.weight = weight;
-        }
+    public String getDescription() {
+        return description;
+    }
 
-        public String getBoxes() {
-            return boxes;
-        }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-        public void setBoxes(String boxes) {
-            this.boxes = boxes;
-        }
+    public String getDriverloading() {
+        return driverloading;
+    }
 
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getDriverloading() {
-            return driverloading;
-        }
-
-        public void setDriverloading(String driverloading) {
-            this.driverloading = driverloading;
-        }
+    public void setDriverloading(String driverloading) {
+        this.driverloading = driverloading;
+    }
 
     public Float getRidedistance() {
         return ridedistance;
@@ -166,107 +158,115 @@ public class driverHistory {
         this.ridedistance = ridedistance;
     }
 
+    public Float getWaitingtime() {
+        return waitingtime;
+    }
+
+    public void setWaitingtime(Float waitingtime) {
+        this.waitingtime = waitingtime;
+    }
+
     public String getPickupaddress() {
-            return pickupaddress;
-        }
+        return pickupaddress;
+    }
 
-        public void setPickupaddress(String pickupaddress) {
-            this.pickupaddress = pickupaddress;
-        }
+    public void setPickupaddress(String pickupaddress) {
+        this.pickupaddress = pickupaddress;
+    }
 
-        public String getDropaddress() {
-            return dropaddress;
-        }
+    public String getDropaddress() {
+        return dropaddress;
+    }
 
-        public void setDropaddress(String dropaddress) {
-            this.dropaddress = dropaddress;
-        }
+    public void setDropaddress(String dropaddress) {
+        this.dropaddress = dropaddress;
+    }
 
-        public String getDrivername() {
-            return drivername;
-        }
+    public String getDrivername() {
+        return drivername;
+    }
 
-        public void setDrivername(String drivername) {
-            this.drivername = drivername;
-        }
+    public void setDrivername(String drivername) {
+        this.drivername = drivername;
+    }
 
-        public String getDriverdp() {
-            return driverdp;
-        }
+    public String getDriverdp() {
+        return driverdp;
+    }
 
-        public void setDriverdp(String driverdp) {
-            this.driverdp = driverdp;
-        }
+    public void setDriverdp(String driverdp) {
+        this.driverdp = driverdp;
+    }
 
-        public String getDrivernic() {
-            return drivernic;
-        }
+    public String getDrivernic() {
+        return drivernic;
+    }
 
-        public void setDrivernic(String drivernic) {
-            this.drivernic = drivernic;
-        }
+    public void setDrivernic(String drivernic) {
+        this.drivernic = drivernic;
+    }
 
-        public String getDriverphone() {
-            return driverphone;
-        }
+    public String getDriverphone() {
+        return driverphone;
+    }
 
-        public void setDriverphone(String driverphone) {
-            this.driverphone = driverphone;
-        }
+    public void setDriverphone(String driverphone) {
+        this.driverphone = driverphone;
+    }
 
-        public GeoPoint getDriverlocation() {
-            return driverlocation;
-        }
+    public GeoPoint getDriverlocation() {
+        return driverlocation;
+    }
 
-        public void setDriverlocation(GeoPoint driverlocation) {
-            this.driverlocation = driverlocation;
-        }
+    public void setDriverlocation(GeoPoint driverlocation) {
+        this.driverlocation = driverlocation;
+    }
 
-        public String getCarregno() {
-            return carregno;
-        }
+    public String getCarregno() {
+        return carregno;
+    }
 
-        public void setCarregno(String carregno) {
-            this.carregno = carregno;
-        }
+    public void setCarregno(String carregno) {
+        this.carregno = carregno;
+    }
 
-        public String getStatus() {
+    public String getStatus() {
         return status;
     }
 
-        public void setStatus(String status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-        public String getDriverid() {
+    public String getDriverid() {
         return driverid;
     }
 
-        public void setDriverid(String driverid) {
+    public void setDriverid(String driverid) {
         this.driverid = driverid;
     }
 
-        public String getRidefare() {
+    public String getRidefare() {
         return ridefare;
-        }
+    }
 
-        public void setRidefare(String ridefare) {
+    public void setRidefare(String ridefare) {
         this.ridefare = ridefare;
-        }
+    }
 
-        public String getPaidvia() {
+    public String getPaidvia() {
         return paidvia;
-        }
+    }
 
-        public void setPaidvia(String paidvia) {
+    public void setPaidvia(String paidvia) {
         this.paidvia = paidvia;
-        }
+    }
 
-        public String getPaymentstatus() {
+    public String getPaymentstatus() {
         return paymentstatus;
-        }
+    }
 
-        public void setPaymentstatus(String paymentstatus) {
+    public void setPaymentstatus(String paymentstatus) {
         this.paymentstatus = paymentstatus;
     }
 
@@ -278,12 +278,44 @@ public class driverHistory {
         this.uniqueID = uniqueID;
     }
 
-    public Float getWaitingtime() {
-        return waitingtime;
+    public String getEstFare() {
+        return estFare;
     }
 
-    public void setWaitingtime(Float waitingtime) {
-        this.waitingtime = waitingtime;
+    public void setEstFare(String estFare) {
+        this.estFare = estFare;
+    }
+
+    public GeoPoint getOriginalpickup() {
+        return originalpickup;
+    }
+
+    public void setOriginalpickup(GeoPoint originalpickup) {
+        this.originalpickup = originalpickup;
+    }
+
+    public GeoPoint getOriginaldrop() {
+        return originaldrop;
+    }
+
+    public void setOriginaldrop(GeoPoint originaldrop) {
+        this.originaldrop = originaldrop;
+    }
+
+    public GeoPoint getActualpickup() {
+        return actualpickup;
+    }
+
+    public void setActualpickup(GeoPoint actualpickup) {
+        this.actualpickup = actualpickup;
+    }
+
+    public GeoPoint getActualdrop() {
+        return actualdrop;
+    }
+
+    public void setActualdrop(GeoPoint actualdrop) {
+        this.actualdrop = actualdrop;
     }
 }
 
