@@ -20,13 +20,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRcustomername"
+                android:id="@+id/ctitle"
                 android:text="CustomerName"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRpickupaddress"
+                android:id="@+id/CRcustomername"
+                android:text="CustomerName"
+                android:layout_below="@id/ctitle"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRpickupaddresstitle"
                 android:text="PickUpaddress"
                 android:layout_below="@id/CRcustomername"
                 />
@@ -34,7 +41,15 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRdropaddress"
+                android:id="@+id/CRpickupaddress"
+                android:text="PickUpaddress"
+                android:layout_below="@id/CRpickupaddresstitle"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/droptitle"
                 android:text="dropaddress"
                 android:layout_below="@id/CRpickupaddress"
                 />
@@ -42,57 +57,116 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRcustomerphone"
+                android:id="@+id/CRdropaddress"
+                android:text="dropaddress"
+                android:layout_below="@id/droptitle"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/phonetitle"
                 android:text="phone"
                 android:layout_below="@id/CRdropaddress"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRcustomerphone"
+                android:text="phone"
+                android:layout_below="@id/phonetitle"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRridedistance"
+                android:id="@+id/CRridedistancetitle"
                 android:text="Distance"
                 android:layout_below="@id/CRcustomerphone"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRdescription"
+                android:id="@+id/CRridedistance"
+                android:text="Distance"
+                android:layout_below="@id/CRridedistancetitle"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRdescriptiontitle"
                 android:text="Description"
                 android:layout_below="@id/CRridedistance"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRBoxes"
+                android:id="@+id/CRdescription"
+                android:text="Description"
+                android:layout_below="@id/CRdescriptiontitle"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRBoxestitle"
                 android:text="Boxes"
                 android:layout_below="@id/CRdescription"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRweight"
+                android:id="@+id/CRBoxes"
+                android:text="Boxes"
+                android:layout_below="@id/CRBoxestitle"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRweighttitle"
                 android:text="Weight"
                 android:layout_below="@id/CRBoxes"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRweight"
+                android:text="Weight"
+                android:layout_below="@id/CRweighttitle"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRstatustitle"
+                android:text="Status"
+                android:layout_below="@id/CRweight"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/CRstatus"
                 android:text="Status"
-                android:layout_below="@id/CRweight"
+                android:layout_below="@id/CRstatustitle"
                 />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRpaymentstatus"
+                android:id="@+id/CRpaymentstatustitle"
                 android:text="PaymentStatus"
                 android:layout_below="@id/CRstatus"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRpaidvia"
+                android:id="@+id/CRpaymentstatus"
+                android:text="PaymentStatus"
+                android:layout_below="@id/CRpaymentstatustitle"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRpaidviatitle"
                 android:text="paidvia"
                 android:layout_below="@id/CRpaymentstatus"
                 />
@@ -100,9 +174,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/CRfare"
+                android:id="@+id/CRpaidvia"
+                android:text="paidvia"
+                android:layout_below="@id/CRpaidviatitle"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRfaretitle"
                 android:text="fare"
                 android:layout_below="@id/CRpaidvia"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/CRfare"
+                android:text="fare"
+                android:layout_below="@id/CRfaretitle"
                 />
 
             <Button

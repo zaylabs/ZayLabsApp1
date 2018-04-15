@@ -64,6 +64,8 @@ public class current_Ride extends AppCompatActivity {
                             currentRideAdapter.notifyDataSetChanged();
                             break;
                         case MODIFIED:
+                            dHistory.remove(acceptRequest);
+                            currentRideAdapter.notifyDataSetChanged();
                             acceptRequest = doc.getDocument().toObject(acceptRequest.class);
                             dHistory.add(acceptRequest);
                             currentRideAdapter.notifyDataSetChanged();
